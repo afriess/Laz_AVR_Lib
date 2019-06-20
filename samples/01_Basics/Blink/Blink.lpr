@@ -29,13 +29,10 @@ program Blink;
 uses
   uInterrupts, ard_digitalIO, ard_Time;
 
-const
-  InternalLED = 13; // internal LED is connected on Arduino Uno.
-
 procedure setup;
 begin
   // Set internal LED to output.
-  pinMode(InternalLED,ardOUTPUT);
+  pinMode(ardLED_BUILTIN,ardOUTPUT);
 end;
 
 
@@ -48,13 +45,13 @@ begin
   begin
 
     //// Turn OFF internal LED.
-    digitalWrite(InternalLED,ardHIGH);
+    digitalWrite(ardLED_BUILTIN,ardHIGH);
 
     //SomeDelay;
     delay(1000);
 
     // Turn ON internal LED.
-    digitalWrite(InternalLED,ardLOW);
+    digitalWrite(ardLED_BUILTIN,ardLOW);
 
     delay(1000);
   end;//Main loop

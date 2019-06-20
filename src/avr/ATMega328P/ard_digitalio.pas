@@ -26,6 +26,8 @@ const
   ardHIGH = true;
   ardLOW  = false;
 
+  ardLED_BUILTIN = 13;
+
 type
   ardPinMode = (ardINPUT, ardINPUT_PULLUP, ardOUTPUT);
 
