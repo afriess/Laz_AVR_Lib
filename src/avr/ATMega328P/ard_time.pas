@@ -23,11 +23,67 @@ unit ard_Time;
 
 interface
 
+const
+  // missing const in ATMega328P
+  WGM00 = 0;
+  WGM01 = 1;
+
+  CS00 = 0;
+  CS01 = 1;
+
+  // defines from C macros
+  F_CPU = 16000000; // 16MHZ
+  clockCyclesPerMicrosecond =  F_CPU div 1000000;
+
+  MICROSECONDS_PER_TIMER0_OVERFLOW = ((64 * 256) div clockCyclesPerMicrosecond);
+  MILLIS_INC = (MICROSECONDS_PER_TIMER0_OVERFLOW div 1000);
+  FRACT_INC = ((MICROSECONDS_PER_TIMER0_OVERFLOW div 1000) shl 3);
+  FRACT_MAX = (1000 shr 3);
+
+// Setup the TimerInterrupts, must call first
+procedure ardTimeSetup;
+
 // Pauses the program for the amount of time (in milliseconds)
 // https://www.arduino.cc/reference/en/language/functions/time/delay/
 procedure delay(ms : LongWord);
 
+// Pauses the program for the amount of time (in microseconds)
+// https://www.arduino.cc/reference/en/language/functions/time/delaymicroseconds/
+procedure delayMicroseconds(us : LongWord);
+
+// Returns the number of milliseconds passed since the Arduino board began running the current program.
+// https://www.arduino.cc/reference/en/language/functions/time/millis/
+function millis():LongWord;
+
 implementation
+
+var
+  timer0_overflow_count: LongWord = 0;
+  timer0_millis: LongWord = 0;
+  timer0_fract: LongWord = 0;
+
+//--- Interrupt 16 Timer/Couner0 Overflow ---
+Procedure TIMER0_OVF_ISR; Alias: 'TIMER0_OVF_ISR'; Interrupt; Public;
+var
+  m,
+  f: LongWord;
+begin
+  m := timer0_millis;
+  f := timer0_fract;
+
+  inc(M,MILLIS_INC);
+  inc(f,FRACT_INC);
+
+  if (f>= FRACT_MAX) then begin
+    f := f - FRACT_MAX;
+    m := m + 1;
+  end;
+
+  timer0_millis:= m;
+  timer0_fract:= f;
+  inc(timer0_overflow_count);
+end;
+
 
 procedure delay1ms;// assembler;
 // Delay 16 000 cycles
@@ -36,11 +92,23 @@ begin
   asm
       ldi  r18, 21
       ldi  r19, 199
-  .L1: dec  r19
+ .L1: dec  r19
       brne .L1
       dec  r18
       brne .L1
   end ['r18','r19'];
+end;
+
+procedure delay1us;// assembler;
+// Delay 16 cycles
+// 1us at 16 MHz
+begin
+  asm
+      ldi  r18, 5
+ .L1: dec  r18
+      brne .L1
+      nop
+  end ['r18'];
 end;
 
 procedure delay(ms: LongWord);
@@ -52,6 +120,43 @@ begin
      delay1ms;
   end;
 end;
+
+procedure delayMicroseconds(us: LongWord);
+var
+  i : LongWord;
+begin
+  // this is not excact, but the first try :-)
+  for i := 0 to us do begin
+     delay1us;
+  end;
+end;
+
+function millis(): LongWord;
+var
+  oldSREG : Byte;
+begin
+  oldSREG := SREG;
+  asm CLI end;//InterruptsDisable;
+  Result := timer0_millis;
+  SREG:=oldSREG;
+  asm SEI end; //InterruptsEnable;
+end;
+
+procedure ardTimeSetup;
+begin
+  asm CLI end;//InterruptsDisable;
+  TCCR0A := TCCR0A or byte(1 shl WGM01);
+  TCCR0A := TCCR0A or byte(1 shl WGM00);
+
+  TCCR0B := TCCR0B or byte(1 shl CS01);
+  TCCR0B := TCCR0B or byte(1 shl CS00);
+
+  TIMSK0 := TIMSK0 or byte(1 shl TOIE0);
+
+  asm SEI end; //InterruptsEnable;
+end;
+
+
 
 end.
 

@@ -1,4 +1,4 @@
-program Blink;
+program BlinkExt;
 
 (* This is a part of Laz_AVR_lib
  *
@@ -36,6 +36,8 @@ begin
 end;
 
 
+var
+  OnOFF : Boolean;
 //=== Entry point =============================================================  
 begin
   // Time Setup must called first
@@ -45,17 +47,13 @@ begin
   //=== Main loop =========================================
   while True do
   begin
+    // This is not blocking
+    // Turn ON/OFF internal LED.
+    OnOFF := (((millis div 1000) and $01) = 0);
 
-    // Turn OFF internal LED.
-    digitalWrite(ardLED_BUILTIN,ardHIGH);
-
-    //SomeDelay;
-    delay(1000);
-
-    // Turn ON internal LED.
-    digitalWrite(ardLED_BUILTIN,ardLOW);
-
-    delay(1000);
+    digitalWrite(ardLED_BUILTIN,OnOFF);
+    // you can do something here
+    // .....
   end;//Main loop
   
 end.
