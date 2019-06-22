@@ -1,11 +1,14 @@
 # Laz_AVR_Lib
 
 ## Description
-A library for Lazarus (FPC) to be source compatible with arduino. With this library it is easier to convert sketches from Arduino to Lazarus
+A library for Lazarus (FPC) to be source compatible with arduino. With this library it is easier to convert sketches from Arduino to Lazarus.
 
-## Sample
+It is not perfrect and for study/learning, but working for me.
+
+## Samples
 
 ### Lazarus
+#### Blocking
     procedure setup;
     begin
       pinMode(ardLED_BUILTIN,ardOUTPUT); // Set internal LED to output.
@@ -22,7 +25,29 @@ A library for Lazarus (FPC) to be source compatible with arduino. With this libr
       end;//Main loop
     end.
   
+  #### Non blocking
+    procedure setup;
+    begin
+      pinMode(ardLED_BUILTIN,ardOUTPUT);
+    end;
+    
+    var
+      OnOFF : Boolean;
+    begin
+      ardTimeSetup;
+      setup;
+      while True do
+      begin
+        OnOFF := (((millis div 1000) and $01) = 0);
+        digitalWrite(ardLED_BUILTIN,OnOFF);
+        // you can do something here
+      end;//Main loop
+    end.
+
+  
+  
   ### Arduino
+  #### Blocking
     void setup() {
       pinMode(LED_BUILTIN, OUTPUT);
     }
