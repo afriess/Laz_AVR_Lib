@@ -1,0 +1,5 @@
+avrdude.conf
+avrdude.exe
+libiconv-2.dll
+libusb0.dll
+libwinpthread-1.dll
