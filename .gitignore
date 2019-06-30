@@ -67,3 +67,4 @@ __recovery/
 *.hex
 *.s
 /tools/AVRDude
+*.bin

@@ -22,26 +22,14 @@ unit ard_Time;
 {$goto on}
 
 interface
+uses
+  ard_Common;
 
 const
-  // missing const in ATMega328P
-  WGM00 = 0;
-  WGM01 = 1;
-
-  CS00 = 0;
-  CS01 = 1;
-
-  // defines from C macros
-  F_CPU = 16000000; // 16MHZ
-  clockCyclesPerMicrosecond =  F_CPU div 1000000;
-
   MICROSECONDS_PER_TIMER0_OVERFLOW = ((64 * 256) div clockCyclesPerMicrosecond);
   MILLIS_INC = (MICROSECONDS_PER_TIMER0_OVERFLOW div 1000);
   FRACT_INC = ((MICROSECONDS_PER_TIMER0_OVERFLOW div 1000) shl 3);
   FRACT_MAX = (1000 shr 3);
-
-// Setup the TimerInterrupts, must call first
-procedure ardTimeSetup;
 
 // Pauses the program for the amount of time (in milliseconds)
 // https://www.arduino.cc/reference/en/language/functions/time/delay/
@@ -141,22 +129,6 @@ begin
   SREG:=oldSREG;
   asm SEI end; //InterruptsEnable;
 end;
-
-procedure ardTimeSetup;
-begin
-  asm CLI end;//InterruptsDisable;
-  TCCR0A := TCCR0A or byte(1 shl WGM01);
-  TCCR0A := TCCR0A or byte(1 shl WGM00);
-
-  TCCR0B := TCCR0B or byte(1 shl CS01);
-  TCCR0B := TCCR0B or byte(1 shl CS00);
-
-  TIMSK0 := TIMSK0 or byte(1 shl TOIE0);
-
-  asm SEI end; //InterruptsEnable;
-end;
-
-
 
 end.
 

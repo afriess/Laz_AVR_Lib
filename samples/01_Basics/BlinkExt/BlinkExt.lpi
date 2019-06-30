@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
         <Runnable Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="BlinkExt"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
@@ -24,7 +24,7 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="BlinkExt.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -39,6 +39,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ard_Time"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\src\avr\ATMega328P\ard_common.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ard_Common"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

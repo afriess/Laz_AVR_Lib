@@ -27,7 +27,7 @@ program Blink;
 {$goto on}
 
 uses
-  uInterrupts, ard_digitalIO, ard_Time;
+  ard_Common, ard_digitalIO, ard_Time;
 
 procedure setup;
 begin
@@ -39,7 +39,7 @@ end;
 //=== Entry point =============================================================  
 begin
   // Time Setup must called first
-  ardTimeSetup;
+  ardSetupHW;
   //
   setup;
   //=== Main loop =========================================

@@ -22,6 +22,10 @@ unit ard_digitalIO;
 {$goto on}
 
 interface
+
+uses
+  ard_Common;
+
 const
   ardHIGH = true;
   ardLOW  = false;

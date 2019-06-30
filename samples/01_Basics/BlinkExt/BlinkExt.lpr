@@ -27,7 +27,7 @@ program BlinkExt;
 {$goto on}
 
 uses
-  uInterrupts, ard_digitalIO, ard_Time;
+  ard_Common, ard_digitalIO, ard_Time;
 
 procedure setup;
 begin
@@ -35,13 +35,12 @@ begin
   pinMode(ardLED_BUILTIN,ardOUTPUT);
 end;
 
-
 var
   OnOFF : Boolean;
 //=== Entry point =============================================================  
 begin
-  // Time Setup must called first
-  ardTimeSetup;
+  // Hardware Setup must called first
+  ardSetupHW;
   //
   setup;
   //=== Main loop =========================================
