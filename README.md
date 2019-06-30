@@ -15,6 +15,7 @@ It is not perfrect and for study/learning, but working for me.
     end;
     
     begin
+	  ardSetupHW;
       setup;
       while True do
       begin
@@ -34,7 +35,7 @@ It is not perfrect and for study/learning, but working for me.
     var
       OnOFF : Boolean;
     begin
-      ardTimeSetup;
+	  ardSetupHW;
       setup;
       while True do
       begin

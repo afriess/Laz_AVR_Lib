@@ -27,7 +27,7 @@ program SerialBase;
 {$goto on}
 
 uses
-  ard_Common, ard_digitalIO, ard_Time;
+  ard_Common, ard_digitalIO, ard_Time, ard_Serial;
 
 procedure setup;
 begin
@@ -37,6 +37,7 @@ end;
 
 var
   OnOFF : Boolean;
+  Serial : TSerial;
 //=== Entry point =============================================================  
 begin
   // Hardware Setup must called first
@@ -44,9 +45,14 @@ begin
   //
   setup;
   //=== Main loop =========================================
+  Serial.ardBegin(19200);
+  OnOFF:= true;
   while True do
   begin
-
+    digitalWrite(ardLED_BUILTIN,OnOFF);
+    Serial.ardWrite('AB x'+#10);
+    delay(2000);
+    OnOFF:= not OnOFF;
     // .....
   end;//Main loop
   

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectGroup FileVersion="1">
-    <Targets Count="2">
+    <Targets Count="3">
       <Target0 FileName="01_Basics\Blink\Blink.lpi">
         <BuildModes Count="1"/>
         <Mode1 Name="Default"/>
@@ -10,6 +10,10 @@
         <BuildModes Count="1"/>
         <Mode1 Name="Default"/>
       </Target1>
+      <Target2 FileName="02_Serial\SerialHW_Basic\SerialBase.lpi">
+        <BuildModes Count="1"/>
+        <Mode1 Name="Default"/>
+      </Target2>
     </Targets>
   </ProjectGroup>
 </CONFIG>

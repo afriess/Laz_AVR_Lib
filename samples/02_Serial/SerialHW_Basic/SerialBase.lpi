@@ -24,7 +24,7 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="SerialBase.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -44,11 +44,19 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ard_Common"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\src\avr\ATMega328P\ard_serial.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ard_Serial"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="serialbase"/>
+    </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <OtherUnitFiles Value="..\..\..\src\avr\ATMega328P"/>
@@ -72,7 +80,7 @@
     <Other>
       <CustomOptions Value="-Wpatmega328p -XPavr-embedded- -al"/>
       <ExecuteAfter>
-        <Command Value="..\..\..\tools\AVRDude\avrdude.exe -p atmega328p -c arduino -P COM3 -e -U flash:w:blinkExt.hex"/>
+        <Command Value="..\..\..\tools\AVRDude\avrdude.exe -p atmega328p -c arduino -P COM3 -e -U flash:w:serialbase.hex"/>
         <CompileReasons Compile="False"/>
       </ExecuteAfter>
     </Other>
